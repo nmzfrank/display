@@ -1,9 +1,38 @@
 $(document).ready(function(){
+	var radio = 4
 	var start_x
 	var start_y
 	var status = 0
 	var current_pos_x
 	var current_pos_y
+	var img_width = 10655
+	var img_height = 2400
+	var background_width
+	var background_height
+	var bios_limit_x = -1666
+	var bios_limit_y = 0
+	$("#larger").on("click",function(){
+		if(radio > 1){
+			radio = radio - 1
+			background_width = img_width / radio
+			background_height = img_height / radio
+			background_size = background_width + 'px '+background_height + 'px'
+			bios_limit_x = 1000 - background_width
+			bios_limit_y = 600 - background_height
+			$("#3dDisplay").css("background-size",background_size)
+		}
+	})
+	$("#smaller").on("click",function(){
+		if(radio < 4){
+			radio = radio + 1
+			background_width = img_width / radio
+			background_height = img_height / radio
+			background_size = background_width + 'px '+background_height + 'px'
+			bios_limit_x = 1000 - background_width
+			bios_limit_y = background_height - 600
+			$("#3dDisplay").css("background-size",background_size)
+		}
+	})
 	$("#3dDisplay").on("mousedown",function(event){
 		start_x = event.screenX
 		start_y = event.screenY
@@ -15,20 +44,23 @@ $(document).ready(function(){
 	$("#3dDisplay").on("mousemove",function(event){
 		present_x = event.screenX
 		present_y = event.screenY
-		$('#info').text(event.screenX+','+event.screenY+'status='+status)
+		
 		delta_x = present_x - start_x
 		delta_y = present_y - start_y
 		if(status == 1){
 			new_pos_x = (current_pos_x + delta_x)
 			new_pos_y = (current_pos_y + delta_y)
-			if(new_pos_y != 0){
-				new_pos_y = 0
+			if(new_pos_y > 0 ){
+				new_pos_y = 0;
+			}
+			if(new_pos_y < bios_limit_y){
+				new_pos_y = bios_limit_y;
 			}
 			if(new_pos_x > 0){
 				new_pos_x = 0;
 			}
-			if(new_pos_x < -1663){
-				new_pos_x = -1663
+			if(new_pos_x < bios_limit_x){
+				new_pos_x = bios_limit_x;
 			}
 			new_pos = new_pos_x + 'px ' + new_pos_y + 'px'
 			$(this).css("background-position",new_pos)
