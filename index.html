@@ -7,12 +7,17 @@
 <title>展示</title>
 
 </head>
-<body>
-	<div style="text-align:center;">
+<body style="background-color:red">
+	<div style="float:right"><a href="main.html">点我进入博物馆</a></div>
+	<div style="clear:both"></div>
+	<div id="model" style="text-align:center;border: 1px solid;">
+		<div id="info" style="display:none"></div>
+		<div><h1>3D模型</h1></div>
 		<div id="3dDisplay" style="width:1000px; height:600px; margin:auto; background-image:url(file:///D:/new_repo/display/resource/IMG_0312.jpg); background-size:2663px 600px; background-position: -100px 0px"></div>
 		<div style="text-align:center">
-			<span id="larger">放大</span>
-			<span id="smaller">缩小</span>
+			<button id="larger">放大</button>
+			<button id="smaller">缩小</button>
 		</div>
 	</div>
+	<img id="details" style="display:none; position:absolute; width:40%; height:80%; left:30%; top:15%" src="resource/details.jpg"></img>
 </body>

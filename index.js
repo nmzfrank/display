@@ -11,6 +11,8 @@ $(document).ready(function(){
 	var background_height = 600
 	var bios_limit_x = -1666
 	var bios_limit_y = 0
+
+
 	$("#larger").on("click",function(){
 		if(radio > 1){
 			radio = radio - 1
@@ -75,6 +77,7 @@ $(document).ready(function(){
 		current_pos_y = parseInt(current_pos[1])
 	})
 	$("#3dDisplay").on("mousemove",function(event){
+		
 		present_x = event.screenX
 		present_y = event.screenY
 		
@@ -97,6 +100,34 @@ $(document).ready(function(){
 			}
 			new_pos = new_pos_x + 'px ' + new_pos_y + 'px'
 			$(this).css("background-position",new_pos)
+		} else{
+
+			x_offset = $(this).offset().left
+			y_offset = $(this).offset().top
+			if(typeof window.pageYOffset != 'undefined') {
+				px = window.pageXOffset;
+				py = window.pageYOffset;
+			}
+			// 如果浏览器支持 compatMode, 并且指定了 DOCTYPE, 通过 documentElement 获取滚动距离作为页面和视窗间的距离
+			// IE 中, 当页面指定 DOCTYPE, compatMode 的值是 CSS1Compat, 否则 compatMode 的值是 BackCompat
+			else if(typeof document.compatMode != 'undefined' && document.compatMode != 'BackCompat') {
+				px = document.documentElement.scrollLeft;
+				py = document.documentElement.scrollTop;
+			}
+			// 如果浏览器支持 document.body, 可以通过 document.body 来获取滚动高度
+			else if(typeof document.body != 'undefined') {
+				px = document.body.scrollLeft;
+				py = document.body.scrollTop;
+			}
+ 
+			true_x = ((event.clientX + px - x_offset) - current_pos_x) * radio
+			true_y = ((event.clientY + py - y_offset) - current_pos_y) * radio
+			$('#info').text(event.clientX+','+event.clientY+' '+x_offset+','+y_offset)
+			if (true_x > 4800 && true_x < 5500 && true_y > 1500 && true_y < 2000){
+				$("#details").show()
+			} else{
+				$("#details").hide()
+			}
 		}
 	})
 	$("#3dDisplay").on("mouseup",function(event){
@@ -104,5 +135,32 @@ $(document).ready(function(){
 		current_pos = $(this).css("background-position").split(' ')
 		current_pos_x = parseInt(current_pos[0])
 		current_pos_y = parseInt(current_pos[1])	
+	})
+
+	$("#3dDisplay").on("click",function(event){
+		x_offset = $(this).offset().left
+		y_offset = $(this).offset().top
+		if(typeof window.pageYOffset != 'undefined') {
+			px = window.pageXOffset;
+			py = window.pageYOffset;
+		}
+		// 如果浏览器支持 compatMode, 并且指定了 DOCTYPE, 通过 documentElement 获取滚动距离作为页面和视窗间的距离
+		// IE 中, 当页面指定 DOCTYPE, compatMode 的值是 CSS1Compat, 否则 compatMode 的值是 BackCompat
+		else if(typeof document.compatMode != 'undefined' && document.compatMode != 'BackCompat') {
+			px = document.documentElement.scrollLeft;
+			py = document.documentElement.scrollTop;
+		}
+		// 如果浏览器支持 document.body, 可以通过 document.body 来获取滚动高度
+		else if(typeof document.body != 'undefined') {
+			px = document.body.scrollLeft;
+			py = document.body.scrollTop;
+		}
+
+		true_x = ((event.clientX + px - x_offset) - current_pos_x) * radio
+		true_y = ((event.clientY + py - y_offset) - current_pos_y) * radio
+		$('#info').text(event.clientX+','+event.clientY+' '+x_offset+','+y_offset)
+		if (true_x > 0 && true_x < 800 && true_y > 400 && true_y < 1000){
+			window.location="movie.html"
+		}
 	})
 });
